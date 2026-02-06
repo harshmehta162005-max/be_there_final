@@ -28,7 +28,7 @@ export default function Header() {
     return (
         <>
             <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-xl z-20 border-b">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-3">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 shrink-0">
                         <Image
@@ -36,7 +36,7 @@ export default function Header() {
                             alt="BeThere logo"
                             width={500}
                             height={500}
-                            className="h-8 w-auto sm:h-10 lg:h-12"
+                            className="h-13 w-auto sm:h-11 lg:h-15"
                             priority
                         />
                         {/* <span className="text-purple-500 text-2xl font-bold">BeThere*</span> */}
@@ -54,7 +54,7 @@ export default function Header() {
                     </div>
 
                     {/* Right Side Actions */}
-                    <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
+                    <div className="flex items-center gap-1 sm:gap-2 justify-end flex-nowrap overflow-x-auto no-scrollbar">
                         {/* Show Pro badge or Upgrade button */}
                         {!hasPro && (
                             <Button
@@ -67,19 +67,34 @@ export default function Header() {
                             </Button>
                         )}
 
-                        <Button variant="ghost" size="sm" asChild className={"mr-2"}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            asChild
+                            className={"mr-1 sm:mr-2 px-2 text-xs sm:text-sm"}
+                        >
                             <Link href="/explore">Explore</Link>
                         </Button>
-                        <Button variant="ghost" size="sm" asChild className={"mr-2"}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            asChild
+                            className={"mr-1 sm:mr-2 px-2 text-xs sm:text-sm"}
+                        >
                             <Link href="/sydney">Sydney</Link>
                         </Button>
 
                         <Authenticated>
-                            <Button variant="ghost" size="sm" asChild className={"mr-2"}>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                asChild
+                                className={"mr-1 sm:mr-2 px-2 text-xs sm:text-sm"}
+                            >
                                 <Link href="/dashboard">Dashboard</Link>
                             </Button>
                             {/* Create Event Button */}
-                            <Button size="sm" asChild className="flex gap-2 mr-4">
+                            <Button size="sm" asChild className="flex gap-2 mr-2 sm:mr-4 px-2">
                                 <Link href="/create-event">
                                     <Plus className="w-4 h-4" />
                                     <span className="hidden sm:inline">Create Event</span>
