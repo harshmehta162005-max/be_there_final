@@ -28,20 +28,20 @@ export default function Header() {
     return (
         <>
             <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-xl z-20 border-b">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-3">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center">
+                    <Link href="/" className="flex items-center gap-2 shrink-0">
                         <Image
                             src="/BeThere_logo.png"
                             alt="BeThere logo"
                             width={500}
                             height={500}
-                            className="w-full h-17"
+                            className="h-8 w-auto sm:h-10"
                             priority
                         />
                         {/* <span className="text-purple-500 text-2xl font-bold">BeThere*</span> */}
                         {hasPro && (
-                            <Badge className="bg-linear-to-r from-pink-500 to-orange-500 gap-1 text-white ml-3">
+                            <Badge className="hidden sm:inline-flex bg-linear-to-r from-pink-500 to-orange-500 gap-1 text-white ml-1">
                                 <Crown className="w-3 h-3" />
                                 Pro
                             </Badge>
@@ -54,13 +54,14 @@ export default function Header() {
                     </div>
 
                     {/* Right Side Actions */}
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
                         {/* Show Pro badge or Upgrade button */}
                         {!hasPro && (
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => setShowUpgradeModal(true)}
+                                className="hidden sm:inline-flex"
                             >
                                 Pricing
                             </Button>
