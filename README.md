@@ -1,5 +1,5 @@
 # BeThere — Sydney Events Radar
-
+# Live link - https://betherefinal-4fuywufii-harsh-mehtas-projects-64ee88d3.vercel.app/
 Scrapes public event sources for Sydney, Australia, stores them in Convex, and renders a clean event listing UI with an admin dashboard for review/import.
 
 ## Features
