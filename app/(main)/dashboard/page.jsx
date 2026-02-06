@@ -79,7 +79,7 @@ export default function DashboardPage() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
                     <Card className="py-3">
                         <CardContent className="space-y-1">
                             <p className="text-xs text-muted-foreground">Total Events</p>
@@ -128,7 +128,7 @@ export default function DashboardPage() {
                 </div>
 
                 <Card className="mb-6">
-                    <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 pt-6">
+                    <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-6">
                         <Input
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
@@ -150,7 +150,7 @@ export default function DashboardPage() {
                             onChange={(e) => setEndDate(e.target.value)}
                         />
                         <select
-                            className="h-9 rounded-md border bg-transparent px-3 text-sm"
+                            className="h-9 rounded-md border bg-background text-foreground px-3 text-sm w-full"
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}
                         >
@@ -165,7 +165,7 @@ export default function DashboardPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6">
                     <div className="space-y-3">
-                        <div className="grid grid-cols-[1.5fr_1fr_1fr_140px] gap-3 px-3 text-xs uppercase text-muted-foreground">
+                        <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_140px] gap-3 px-3 text-xs uppercase text-muted-foreground">
                             <span>Event</span>
                             <span>Date</span>
                             <span>Status</span>
@@ -183,30 +183,35 @@ export default function DashboardPage() {
                                     }`}
                                     onClick={() => setSelectedEventId(event._id)}
                                 >
-                                    <CardContent className="grid grid-cols-[1.5fr_1fr_1fr_140px] gap-3 items-center">
+                                    <CardContent className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_140px] gap-3 items-center">
                                         <div>
                                             <p className="font-semibold">{event.title}</p>
                                             <p className="text-xs text-muted-foreground">
                                                 {event.venueName || "Sydney"} • {event.sourceName}
                                             </p>
                                         </div>
-                                        <div className="text-sm text-muted-foreground">
-                                            {format(event.startDate, "PPP")}
-                                        </div>
-                                        <div className="flex gap-2 flex-wrap">
-                                            {event.statusTags?.map((tag) => (
-                                                <Badge key={tag} variant="secondary">
-                                                    {tag}
-                                                </Badge>
-                                            ))}
+                                        <div className="flex items-center justify-between md:justify-start md:flex-col md:items-start gap-2">
+                                            <div className="text-sm text-muted-foreground">
+                                                {format(event.startDate, "PPP")}
+                                            </div>
+                                            <div className="flex gap-2 flex-wrap">
+                                                {event.statusTags?.map((tag) => (
+                                                    <Badge key={tag} variant="secondary">
+                                                        {tag}
+                                                    </Badge>
+                                                ))}
+                                            </div>
                                         </div>
                                         <Button
                                             size="sm"
+                                            className="w-full md:w-auto"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleImport(event._id);
                                             }}
-                                            disabled={importing || event.statusTags?.includes("imported")}
+                                            disabled={
+                                                importing || event.statusTags?.includes("imported")
+                                            }
                                         >
                                             {event.statusTags?.includes("imported")
                                                 ? "Imported"
@@ -220,7 +225,7 @@ export default function DashboardPage() {
 
                     <div>
                         {selectedEvent ? (
-                            <Card className="sticky top-24">
+                            <Card className="lg:sticky lg:top-24">
                                 <CardContent className="pt-6 space-y-4">
                                     <div>
                                         <h2 className="text-2xl font-bold">
