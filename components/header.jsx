@@ -36,7 +36,7 @@ export default function Header() {
                             alt="BeThere logo"
                             width={500}
                             height={500}
-                            className="h-8 w-auto sm:h-10"
+                            className="h-8 w-auto sm:h-10 lg:h-12"
                             priority
                         />
                         {/* <span className="text-purple-500 text-2xl font-bold">BeThere*</span> */}
