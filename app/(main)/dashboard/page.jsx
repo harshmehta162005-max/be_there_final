@@ -44,7 +44,7 @@ export default function DashboardPage() {
     );
 
     const selectedEvent = useMemo(
-        () => events?.find((event) => event._id === selectedEventId) || events?.[0],
+        () => events?.find((event) => event._id === selectedEventId),
         [events, selectedEventId]
     );
 
@@ -174,15 +174,19 @@ export default function DashboardPage() {
 
                         <div className="space-y-2">
                             {events?.map((event) => (
-                                <Card
-                                    key={event._id}
-                                    className={`py-3 cursor-pointer ${
-                                        selectedEvent?._id === event._id
-                                            ? "border-purple-500/70"
-                                            : ""
-                                    }`}
-                                    onClick={() => setSelectedEventId(event._id)}
-                                >
+                                <div key={event._id} className="space-y-2">
+                                    <Card
+                                        className={`py-3 cursor-pointer ${
+                                            selectedEvent?._id === event._id
+                                                ? "border-purple-500/70"
+                                                : ""
+                                        }`}
+                                        onClick={() =>
+                                            setSelectedEventId((prev) =>
+                                                prev === event._id ? null : event._id
+                                            )
+                                        }
+                                    >
                                     <CardContent className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_140px] gap-3 items-center">
                                         <div>
                                             <p className="font-semibold">{event.title}</p>
@@ -190,17 +194,15 @@ export default function DashboardPage() {
                                                 {event.venueName || "Sydney"} • {event.sourceName}
                                             </p>
                                         </div>
-                                        <div className="flex items-center justify-between md:justify-start md:flex-col md:items-start gap-2">
-                                            <div className="text-sm text-muted-foreground">
-                                                {format(event.startDate, "PPP")}
-                                            </div>
-                                            <div className="flex gap-2 flex-wrap">
-                                                {event.statusTags?.map((tag) => (
-                                                    <Badge key={tag} variant="secondary">
-                                                        {tag}
-                                                    </Badge>
-                                                ))}
-                                            </div>
+                                        <div className="text-sm text-muted-foreground">
+                                            {format(event.startDate, "PPP")}
+                                        </div>
+                                        <div className="flex gap-2 flex-wrap">
+                                            {event.statusTags?.map((tag) => (
+                                                <Badge key={tag} variant="secondary">
+                                                    {tag}
+                                                </Badge>
+                                            ))}
                                         </div>
                                         <Button
                                             size="sm"
@@ -218,12 +220,64 @@ export default function DashboardPage() {
                                                 : "Import"}
                                         </Button>
                                     </CardContent>
-                                </Card>
+                                    </Card>
+
+                                    {selectedEvent?._id === event._id && (
+                                        <Card className="md:hidden">
+                                            <CardContent className="pt-4 space-y-3">
+                                                <div>
+                                                    <h3 className="text-base font-semibold">
+                                                        {event.title}
+                                                    </h3>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {event.venueName || "Sydney"} â€¢{" "}
+                                                        {event.sourceName}
+                                                    </p>
+                                                </div>
+                                                <div className="text-xs text-muted-foreground space-y-1">
+                                                    <p>{format(event.startDate, "PPP, h:mm a")}</p>
+                                                    <p>{event.address}</p>
+                                                    <p>{event.sourceUrl}</p>
+                                                </div>
+                                                <div className="prose prose-invert max-w-none text-muted-foreground text-sm max-h-56 overflow-y-auto leading-relaxed">
+                                                    <ReactMarkdown>
+                                                        {event.description}
+                                                    </ReactMarkdown>
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-xs font-semibold mb-2">
+                                                        Import Notes
+                                                    </h4>
+                                                    <Textarea
+                                                        value={importNotes}
+                                                        onChange={(e) =>
+                                                            setImportNotes(e.target.value)
+                                                        }
+                                                        placeholder="Optional notes about this import..."
+                                                        rows={3}
+                                                    />
+                                                </div>
+                                                <Button
+                                                    onClick={() => handleImport(event._id)}
+                                                    disabled={
+                                                        importing ||
+                                                        event.statusTags?.includes("imported")
+                                                    }
+                                                    className="w-full"
+                                                >
+                                                    {event.statusTags?.includes("imported")
+                                                        ? "Imported"
+                                                        : "Import to Platform"}
+                                                </Button>
+                                            </CardContent>
+                                        </Card>
+                                    )}
+                                </div>
                             ))}
                         </div>
                     </div>
 
-                    <div>
+                    <div className="hidden lg:block">
                         {selectedEvent ? (
                             <Card className="lg:sticky lg:top-24">
                                 <CardContent className="pt-6 space-y-4">
