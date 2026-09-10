@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/purity */
 "use client";
+/* eslint-disable react-hooks/purity */
 
 import { useParams, useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
@@ -52,6 +52,9 @@ export default function EventDetailPage() {
         slug: params.slug,
     });
 
+    // Fetch the current Convex user — needed to correctly compare _id with event.organizerId
+    const { data: currentConvexUser } = useConvexQuery(api.users.getCurrentUser);
+
     // Check if user is already registered
     const { data: registration } = useConvexQuery(
         api.registrations.checkRegistration,
@@ -99,7 +102,8 @@ export default function EventDetailPage() {
 
     const isEventFull = event.registrationCount >= event.capacity;
     const isEventPast = event.endDate < Date.now();
-    const isOrganizer = user?.id === event.organizerId;
+    // Fix: compare Convex _id (not Clerk user.id) against event.organizerId
+    const isOrganizer = currentConvexUser?._id === event.organizerId;
 
     return (
         <div
@@ -323,7 +327,7 @@ export default function EventDetailPage() {
                                 ) : isOrganizer ? (
                                     <Button
                                         className="w-full"
-                                        onClick={() => router.push(`/events/${event.slug}/manage`)}
+                                        onClick={() => router.push(`/my-events`)}
                                     >
                                         Manage Event
                                     </Button>

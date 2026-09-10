@@ -214,11 +214,10 @@ export default function EventDashboardPage() {
                     </div>
                 </div>
 
-                {/* Quick Actions - Show QR Scanner if event is today */}
-                {stats.isEventToday && !stats.isEventPast && (
+                {/* QR Scan Button — visible for any event that hasn't ended yet */}
+                {!stats.isEventPast && (
                     <Button
                         size="lg"
-                        // variant="outline"
                         className="mb-8 w-full gap-2 h-10 bg-linear-to-r from-orange-500 via-pink-500 to-red-500 text-white hover:scale-[1.02]"
                         onClick={() => setShowQRScanner(true)}
                     >
